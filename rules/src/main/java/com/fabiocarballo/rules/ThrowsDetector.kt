@@ -7,14 +7,17 @@ import org.jetbrains.uast.UCallExpression
 @Suppress("UnstableApiUsage")
 class ThrowsDetector : Detector(), SourceCodeScanner {
 
-    override fun getApplicableMethodNames(): List<String> =
-        listOf("tag", "format", "v", "d", "i", "w", "e", "wtf")
+//    override fun getApplicableMethodNames(): List<String> =
+//        listOf("tag", "format", "v", "d", "i", "w", "e", "wtf")
+
+    // TODO: find a way to go through all methods that throws
+    override fun getApplicableMethodNames(): List<String> = listOf("methodThrows")
 
     override fun visitMethodCall(context: JavaContext, node: UCallExpression, method: PsiMethod) {
         super.visitMethodCall(context, node, method)
         val evaluator = context.evaluator
-        if (evaluator.isMemberInClass(method, "android.util.Log")) {
-            reportUsage(context, node)
+        if(method.throwsTypes.isNotEmpty()) {
+           reportUsage(context, node)
         }
     }
 
@@ -42,8 +45,8 @@ class ThrowsDetector : Detector(), SourceCodeScanner {
                 id = "ThrowsDetector",
                 briefDescription = "Should handle throws",
                 explanation = """
-Amazing explanation
-            """.trimIndent(),
+                    Amazing explanation
+                """.trimIndent(),
                 category = Category.CORRECTNESS,
                 priority = 9,
                 severity = Severity.ERROR,

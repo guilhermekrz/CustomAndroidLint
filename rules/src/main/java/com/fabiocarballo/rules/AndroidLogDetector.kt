@@ -7,6 +7,7 @@ import org.jetbrains.uast.UCallExpression
 /**
  * This detector will report any usages of the android.util.Log.
  */
+@Suppress("UnstableApiUsage")
 class AndroidLogDetector : Detector(), SourceCodeScanner {
 
     override fun getApplicableMethodNames(): List<String> =

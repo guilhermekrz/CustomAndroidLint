@@ -3,6 +3,7 @@ package com.fabiocarballo.rules
 import com.android.tools.lint.checks.infrastructure.TestFile
 import com.android.tools.lint.checks.infrastructure.TestFiles.java
 
+@Suppress("UnstableApiUsage")
 object Stubs {
 
     /**
