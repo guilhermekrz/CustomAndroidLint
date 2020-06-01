@@ -20,5 +20,4 @@ object Dependencies {
     const val junitJupiterApi = "org.junit.jupiter:junit-jupiter-api:${Versions.junitJupiter}"
     const val junitJupiterEngine = "org.junit.jupiter:junit-jupiter-engine:${Versions.junitJupiter}"
     const val junitJupiterParams = "org.junit.jupiter:junit-jupiter-params:${Versions.junitJupiter}"
-    const val junitVintageEngine = "org.junit.vintage:junit-vintage-engine:${Versions.junitVintage}"
 }
