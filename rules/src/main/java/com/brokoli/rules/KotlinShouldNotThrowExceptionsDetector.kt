@@ -2,9 +2,12 @@ package com.brokoli.rules
 
 import com.android.tools.lint.client.api.UElementHandler
 import com.android.tools.lint.detector.api.*
+import com.intellij.psi.PsiType
 import org.jetbrains.uast.*
 import org.jetbrains.uast.kotlin.KotlinUThrowExpression
 import org.jetbrains.uast.visitor.AbstractUastVisitor
+import java.lang.IllegalStateException
+import java.lang.RuntimeException
 
 // Detects that Kotlin methods:
 // 1 - Do not have @Throws annotation
@@ -24,7 +27,7 @@ class KotlinShouldNotThrowExceptionsDetector : Detector(), SourceCodeScanner {
 
         override fun visitMethod(node: UMethod) {
             for(annotation in node.annotations) {
-                if(annotation.qualifiedName == THROWS_ANNOTATION_CLASS) {
+                if(annotation.qualifiedName == Throws::class.qualifiedName) {
                     reportUsage(context, location = context.getLocation(node = node))
                 }
             }
@@ -40,7 +43,22 @@ class KotlinShouldNotThrowExceptionsDetector : Detector(), SourceCodeScanner {
 
         override fun visitCallExpression(node: UCallExpression): Boolean {
             if(node.uastParent is KotlinUThrowExpression) {
-                reportUsage(context, context.getLocation(element = node))
+                val type = node.returnType ?: throw IllegalStateException("type of KotlinUThrowExpression cannot be null")
+                if(!isUncheckedException(type)) {
+                    reportUsage(context, context.getLocation(element = node))
+                }
+            }
+            return false
+        }
+
+        private fun isUncheckedException(type: PsiType): Boolean {
+            if(type.canonicalText == RuntimeException::class.java.canonicalName) {
+                return true
+            }
+            for(superType in type.superTypes) {
+                if(isUncheckedException(superType)) {
+                    return true
+                }
             }
             return false
         }
@@ -56,8 +74,6 @@ class KotlinShouldNotThrowExceptionsDetector : Detector(), SourceCodeScanner {
     }
 
     companion object {
-        private const val THROWS_ANNOTATION_CLASS = "kotlin.jvm.Throws"
-
         private val IMPLEMENTATION = Implementation(
             KotlinShouldNotThrowExceptionsDetector::class.java,
             Scope.JAVA_FILE_SCOPE

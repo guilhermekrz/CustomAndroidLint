@@ -174,7 +174,41 @@ class KotlinShouldNotThrowExceptionsDetectorTest : AndroidSdkLintDetectorTest() 
     }
 
     @Test
-    fun detectKotlinThrowsOneException() {
+    fun detectKotlinThrowsException() {
+        val kotlinFile = kotlin(
+            """
+            package com.brokoli.lint
+            
+            import java.lang.Exception
+
+            class MyClass {
+                
+                fun method() {
+                    throw Exception()
+                }
+                
+            }
+        """
+        ).indented()
+
+        val lintResult = lint()
+            .files(kotlinFile)
+            .run()
+
+        lintResult
+            .expectErrorCount(1)
+            .expect(
+                """
+             src/com/brokoli/lint/MyClass.kt:8: Error: Kotlin code should not throw Exceptions [KotlinShouldNotThrowExceptionsDetector]
+                     throw Exception()
+                           ~~~~~~~~~~~
+             1 errors, 0 warnings
+         """.trimIndent()
+            )
+    }
+
+    @Test
+    fun detectKotlinThrowsCheckedException() {
         val kotlinFile = kotlin(
             """
             package com.brokoli.lint
@@ -205,6 +239,56 @@ class KotlinShouldNotThrowExceptionsDetectorTest : AndroidSdkLintDetectorTest() 
              1 errors, 0 warnings
          """.trimIndent()
             )
+    }
+
+    @Test
+    fun detectKotlinThrowsRuntimeException() {
+        val kotlinFile = kotlin(
+            """
+            package com.brokoli.lint
+
+            import java.lang.RuntimeException
+
+            class MyClass {
+                
+                fun method() {
+                    throw RuntimeException()
+                }
+                
+            }
+        """
+        ).indented()
+
+        val lintResult = lint()
+            .files(kotlinFile)
+            .run()
+
+        lintResult.expectClean()
+    }
+
+    @Test
+    fun detectKotlinThrowsUncheckedException() {
+        val kotlinFile = kotlin(
+            """
+            package com.brokoli.lint
+
+            import java.lang.IllegalStateException
+
+            class MyClass {
+                
+                fun method() {
+                    throw IllegalStateException()
+                }
+                
+            }
+        """
+        ).indented()
+
+        val lintResult = lint()
+            .files(kotlinFile)
+            .run()
+
+        lintResult.expectClean()
     }
 
 }
