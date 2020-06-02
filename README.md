@@ -20,6 +20,4 @@
     * https://jayrambhia.com/blog/android-lint and https://jayrambhia.com/blog/android-lint-ref
     * https://proandroiddev.com/enforcing-clean-architecture-using-android-custom-lint-rules-aa8fc1708c59
     * https://medium.com/supercharges-mobile-product-guide/formatting-code-analysis-rule-with-android-lint-part-1-2-4b906f717382
-
-
-TODO Watch: https://www.youtube.com/watch?v=p8yX5-lPS6o&feature=youtu.be&t=1353
+    * https://medium.com/@sinankozak/android-lint-rule-for-immutable-kotlin-data-classes-5c91517c7611

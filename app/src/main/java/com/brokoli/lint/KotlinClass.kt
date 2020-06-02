@@ -39,4 +39,13 @@ class KotlinClass {
         JavaClass().methodThrowsUncheckedException()
     }
 
+    fun callMethodChangesListWithMutableList() {
+        JavaClass().methodChangesList(mutableListOf())
+    }
+
+    fun callMethodChangesListWithImmutableList() {
+        val list = listOf<Object>()
+        JavaClass().methodChangesList(list)
+    }
+
 }

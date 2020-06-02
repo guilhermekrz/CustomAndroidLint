@@ -1,5 +1,7 @@
 package com.brokoli.lint;
 
+import java.util.List;
+
 class JavaClass {
 
     public void methodDoesNotThrow()  {
@@ -12,6 +14,10 @@ class JavaClass {
 
     public void methodThrowsUncheckedException() {
         throw new IllegalStateException();
+    }
+
+    public void methodChangesList(List<Object> objects) {
+        objects.add(new Object());
     }
 
 }
