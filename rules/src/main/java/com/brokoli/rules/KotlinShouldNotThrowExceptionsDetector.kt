@@ -11,7 +11,7 @@ import java.lang.RuntimeException
 
 // Detects that Kotlin methods:
 // 1 - Do not have @Throws annotation
-// 2 - Do not have throw expressions
+// 2 - Do not have throw checked expressions
 @Suppress("UnstableApiUsage")
 class KotlinShouldNotThrowExceptionsDetector : Detector(), SourceCodeScanner {
 
@@ -79,8 +79,7 @@ class KotlinShouldNotThrowExceptionsDetector : Detector(), SourceCodeScanner {
             Scope.JAVA_FILE_SCOPE
         )
 
-        val ISSUE: Issue = Issue
-            .create(
+        val ISSUE: Issue = Issue.create(
                 id = "KotlinShouldNotThrowExceptionsDetector",
                 briefDescription = "Kotlin code should not throw Exceptions",
                 explanation = """
