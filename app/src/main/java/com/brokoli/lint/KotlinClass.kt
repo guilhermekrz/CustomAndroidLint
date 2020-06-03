@@ -48,4 +48,8 @@ class KotlinClass {
         JavaClass().methodChangesList(list)
     }
 
+    fun methodWith8Parameters(first: Boolean, second: String, third: Int, fourth: Long, fifth: Char, sixth: Boolean, seventh: Boolean, eight: Boolean) {
+
+    }
+
 }

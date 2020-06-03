@@ -2,6 +2,7 @@
 
 ## Current rules
 
+* Method should not have more than 5 parameters
 * Do not throw Exception from Kotlin code (either by annotating the method as @Throws or by actually throwing a new Exception)
 * Detect if Java code throws and Kotlin code does not catch
 
