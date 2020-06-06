@@ -10,6 +10,6 @@ class IssueRegistry : IssueRegistry() {
     override val api: Int = CURRENT_API
     
     override val issues: List<Issue>
-        get() = listOf(KotlinShouldHandleJavaExceptionsDetector.ISSUE, KotlinShouldNotThrowExceptionsDetector.ISSUE, TooManyParameterDetector.ISSUE)
+        get() = listOf(KotlinShouldHandleJavaExceptionsDetector.ISSUE, KotlinShouldNotThrowExceptionsDetector.ISSUE, TooManyParametersDetector.ISSUE)
 
 }

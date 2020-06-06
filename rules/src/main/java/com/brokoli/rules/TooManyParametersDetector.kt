@@ -6,7 +6,7 @@ import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UMethod
 
 @Suppress("UnstableApiUsage")
-class TooManyParameterDetector : Detector(), SourceCodeScanner {
+class TooManyParametersDetector : Detector(), SourceCodeScanner {
 
     override fun getApplicableUastTypes(): List<Class<out UElement>>? {
         return listOf(UMethod::class.java)
@@ -39,12 +39,12 @@ class TooManyParameterDetector : Detector(), SourceCodeScanner {
         private const val MAX_NUMBER_OF_METHOD_PARAMETERS = 5
 
         private val IMPLEMENTATION = Implementation(
-            TooManyParameterDetector::class.java,
+            TooManyParametersDetector::class.java,
             Scope.JAVA_FILE_SCOPE
         )
 
         val ISSUE: Issue = Issue.create(
-            id = "TooManyParameterDetector",
+            id = "TooManyParametersDetector",
             briefDescription = "Method should not declare more than 5 parameters",
             explanation = """
                     You should limit the number of parameters you method receive, 

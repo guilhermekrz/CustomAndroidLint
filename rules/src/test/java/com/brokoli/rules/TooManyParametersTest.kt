@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test
 @Suppress("UnstableApiUsage")
 class TooManyParametersDetectorTest : AndroidSdkLintDetectorTest() {
 
-    override fun getDetector(): Detector = TooManyParameterDetector()
+    override fun getDetector(): Detector = TooManyParametersDetector()
 
-    override fun getIssues(): MutableList<Issue> = mutableListOf(TooManyParameterDetector.ISSUE)
+    override fun getIssues(): MutableList<Issue> = mutableListOf(TooManyParametersDetector.ISSUE)
 
     @Test
     fun `java method with 0 parameters`() {
@@ -104,7 +104,7 @@ class TooManyParametersDetectorTest : AndroidSdkLintDetectorTest() {
             .expectWarningCount(1)
             .expect(
                 """
-                    src/com/brokoli/lint/MyClass.java:5: Warning: Method should not declare more than 5 parameters [TooManyParameterDetector]
+                    src/com/brokoli/lint/MyClass.java:5: Warning: Method should not declare more than 5 parameters [TooManyParametersDetector]
                         public void methodWith6Parameters(boolean first, String second, int third, long fourth, char fifth, boolean sixth) {
                         ^
                     0 errors, 1 warnings
@@ -205,7 +205,7 @@ class TooManyParametersDetectorTest : AndroidSdkLintDetectorTest() {
             .expectWarningCount(1)
             .expect(
                 """
-                src/com/brokoli/lint/MyClass.kt:5: Warning: Method should not declare more than 5 parameters [TooManyParameterDetector]
+                src/com/brokoli/lint/MyClass.kt:5: Warning: Method should not declare more than 5 parameters [TooManyParametersDetector]
                     fun methodWith6Parameters(first: Boolean, second: String, third: Int, fourth: Long, fifth: Char, sixth: Boolean) {
                     ^
                 0 errors, 1 warnings
@@ -241,7 +241,7 @@ class TooManyParametersDetectorTest : AndroidSdkLintDetectorTest() {
             .expectWarningCount(1)
             .expect(
                 """
-                src/com/brokoli/lint/MyClass.kt:9: Warning: Method should not declare more than 5 parameters [TooManyParameterDetector]
+                src/com/brokoli/lint/MyClass.kt:9: Warning: Method should not declare more than 5 parameters [TooManyParametersDetector]
                     fun methodWith6Parameters(first: Boolean, second: String, third: Int, fourth: Long, fifth: Char, sixth: Boolean) {
                     ^
                 0 errors, 1 warnings
@@ -277,10 +277,10 @@ class TooManyParametersDetectorTest : AndroidSdkLintDetectorTest() {
             .expectWarningCount(2)
             .expect(
                 """
-                    src/com/brokoli/lint/MyClass.kt:5: Warning: Method should not declare more than 5 parameters [TooManyParameterDetector]
+                    src/com/brokoli/lint/MyClass.kt:5: Warning: Method should not declare more than 5 parameters [TooManyParametersDetector]
                         fun methodWith6Parameters(first: Boolean, second: String, third: Int, fourth: Long, fifth: Char, sixth: Boolean) {
                         ^
-                    src/com/brokoli/lint/MyClass.kt:9: Warning: Method should not declare more than 5 parameters [TooManyParameterDetector]
+                    src/com/brokoli/lint/MyClass.kt:9: Warning: Method should not declare more than 5 parameters [TooManyParametersDetector]
                         fun methodWith8Parameters(first: Boolean, second: String, third: Int, fourth: Long, fifth: Char, sixth: Boolean, seventh: Boolean, eight: Boolean) {
                         ^
                     0 errors, 2 warnings
