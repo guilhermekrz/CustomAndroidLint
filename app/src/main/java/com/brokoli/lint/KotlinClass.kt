@@ -26,6 +26,14 @@ class KotlinClass {
         }
     }
 
+    fun checkedException() {
+        throw IOException()
+    }
+
+    fun uncheckedException() {
+        throw RuntimeException()
+    }
+
     @Throws(IOException::class)
     fun annotatedMethod() {
     }

@@ -28,5 +28,7 @@ dependencies {
     implementation Dependencies.androidAppCompat
     implementation Dependencies.androidKtxCore
 
+    implementation("com.squareup.okhttp3:okhttp:4.7.2")
+
     lintChecks project(Modules.lintRules)
 }
