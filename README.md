@@ -6,6 +6,7 @@
 * Should only construct OkHttpClient once
 * Do not throw Exception from Kotlin code (either by annotating the method as @Throws or by actually throwing a new Exception)
 * Detect if Java code throws and Kotlin code does not catch
+* Detect if you are setting the fragment manager before calling Activity onCreate method
 
 ## Ideas
 
