@@ -161,4 +161,49 @@ class MoreThanOneOkHttpClientDetectorTest : AndroidSdkLintDetectorTest() {
             """.trimIndent())
     }
 
+    @Test
+    fun `blablabla`() {
+        val kotlinFile = kotlin(
+            """
+            package com.brokoli.lint
+            
+            import okhttp3.OkHttpClient
+
+            class MyClass {
+                
+                fun method1() {
+                    OkHttpClient()
+                }
+                
+                fun method2() {
+                    method1()
+                }
+                
+                fun method3() {
+                    method1()
+                }
+                
+            }
+        """
+        ).indented()
+
+        val lintResult = lint()
+            .files(okHttpClientFile, kotlinFile)
+            .run()
+
+        lintResult
+            .expectWarningCount(2)
+            .expect("""
+                src/com/brokoli/lint/MyClass.java:8: Warning: You should only create one OkHttpClient instance [MoreThanOneOkHttpClientDetector]
+                        new OkHttpClient();
+                        ~~~~~~~~~~~~~~~~~~
+                src/com/brokoli/lint/MyClass.kt:8: Warning: You should only create one OkHttpClient instance [MoreThanOneOkHttpClientDetector]
+                        OkHttpClient()
+                        ~~~~~~~~~~~~~~
+                0 errors, 2 warnings
+            """.trimIndent())
+    }
+
+    // TODO: maybe change place where the warning is displayed? add more tests?
+
 }

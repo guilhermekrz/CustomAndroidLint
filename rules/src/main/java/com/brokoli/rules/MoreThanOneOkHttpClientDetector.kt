@@ -2,9 +2,13 @@ package com.brokoli.rules
 
 import com.android.tools.lint.client.api.UElementHandler
 import com.android.tools.lint.detector.api.*
+import com.android.tools.lint.detector.api.interprocedural.*
 import org.jetbrains.uast.UCallExpression
 import org.jetbrains.uast.UElement
+import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.UastCallKind
+import java.lang.IllegalStateException
+import java.util.stream.Collectors
 
 @Suppress("UnstableApiUsage")
 class MoreThanOneOkHttpClientDetector : Detector(), SourceCodeScanner {
@@ -12,6 +16,48 @@ class MoreThanOneOkHttpClientDetector : Detector(), SourceCodeScanner {
     private val okHttpClientConstructors = mutableSetOf<CallContextLocation>()
 
     data class CallContextLocation(val context: JavaContext, val location: Location)
+
+    override fun isCallGraphRequired(): Boolean {
+        return true
+    }
+
+    // https://groups.google.com/forum/#!searchin/lint-dev/caller|sort:date/lint-dev/wFvCZOt4wZ8/g5punP99BAAJ
+    override fun analyzeCallGraph(context: Context, callGraph: CallGraphResult) {
+        val contextualCallGraph = callGraph.callGraph.buildContextualCallGraph(callGraph.receiverEval)
+        val okHttpClientNodes = contextualCallGraph.contextualNodes.stream().filter { contextualNode ->
+            val element = contextualNode.node.target.element
+            if(element is UMethod) {
+                element.containingClass?.qualifiedName == "okhttp3.OkHttpClient" && element.name == "OkHttpClient"
+            } else {
+                false
+            }
+        }.collect(Collectors.toList());
+        if(okHttpClientNodes.size == 0) {
+            // OkHttpClient not used in this project
+            return
+        }
+        if(okHttpClientNodes.size != 1) {
+            throw IllegalStateException("There should be only one declaration of OkHttpClient constructor")
+        }
+        backwardSearch(context, callGraph.callGraph, contextualCallGraph, okHttpClientNodes.first())
+    }
+
+    private fun backwardSearch(context: Context, callGraph: CallGraph, contextualCallGraph: ContextualCallGraph, node: ContextualNode) {
+        val callers = contextualCallGraph.inEdges(node)
+        if(callers.isEmpty()) {
+            // We are done
+            return
+        }
+        if(callers.size == 1) {
+            backwardSearch(context, callGraph, contextualCallGraph, callers.first().contextualNode)
+            return
+        }
+        val parser = context.client.getUastParser(context.project)
+        callers.map { it.contextualNode }.forEach { node ->
+            val location = parser.createLocation(node.node.target.element)
+            reportUsage(context, location)
+        }
+    }
 
     override fun getApplicableUastTypes(): List<Class<out UElement>>? {
         return listOf(UCallExpression::class.java)
@@ -40,6 +86,14 @@ class MoreThanOneOkHttpClientDetector : Detector(), SourceCodeScanner {
     }
 
     private fun reportUsage(context: JavaContext, location: Location) {
+        context.report(
+            issue = ISSUE,
+            location = location,
+            message = "You should only create one OkHttpClient instance"
+        )
+    }
+
+    private fun reportUsage(context: Context, location: Location) {
         context.report(
             issue = ISSUE,
             location = location,
