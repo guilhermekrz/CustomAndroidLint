@@ -10,7 +10,7 @@
 
 ## Ideas
 
-* Detect if we are using immutable list/set/map and Java needs a mutable list/set/map
+* [Detect if we are using immutable list/set/map and Java needs a mutable list/set/map](https://groups.google.com/g/lint-dev/c/qgBbBkY4Wng)
 
 ## Resources
 
