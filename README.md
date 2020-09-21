@@ -4,7 +4,7 @@
 
 * [Method should not declare more than 5 parameters](https://medium.com/@guilhermekrz/how-to-implement-your-first-custom-lint-rule-in-android-using-tdd-part-1-d3c9a58a7aa8)
 * [Should only construct OkHttpClient once](https://medium.com/@guilhermekrz/how-to-implement-a-custom-lint-rule-in-android-that-requires-an-overall-view-of-the-project-part-34f1371cf0c3)
-* Do not throw Exception from Kotlin code (either by annotating the method as @Throws or by actually throwing a new Exception)
+* [Do not throw Exception from Kotlin code (either by annotating the method as @Throws or by actually throwing a new Exception)](https://medium.com/@guilhermekrz/how-to-implement-a-custom-lint-rule-in-android-to-warn-against-checked-exception-thrown-from-a076eb9fecd5)
 * Detect if Java code throws and Kotlin code does not catch
 * Detect if you are setting the fragment manager before calling Activity onCreate method
 
