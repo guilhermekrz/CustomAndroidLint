@@ -14,6 +14,7 @@
 
 ## Resources
 
+* Android Lint API Guide: https://googlesamples.github.io/android-custom-lint-rules/book.md.html
 * Android Official Lint Doc: https://developer.android.com/studio/write/lint
 * Android Official Sample: https://github.com/googlesamples/android-custom-lint-rules
 * All of Android lint checks are available at https://android.googlesource.com/platform/tools/base/+/master/lint/libs/lint-checks/src/main/java/com/android/tools/lint/checks
